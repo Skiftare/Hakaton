@@ -1,0 +1,86 @@
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+file = 'table.xls'
+
+# Load spreadsheet
+xl = pd.ExcelFile(file)
+
+# Print the sheet names
+#print(xl.sheet_names)
+
+# Load a sheet into a DataFrame by name: df1
+file = xl.parse('Sheet1')
+#print(file[0])
+file_of_rel = [
+"school",
+"sex",
+"age",
+"address",
+"famsize",
+"studytime",
+"reason",
+"failures_MATH",
+"failures_PORTUGESE",
+"schoolsup",
+"famsup",
+"paid_MATH",
+"paid_PORTUGESE",
+"internet",
+"higher",
+"romantic",
+"famrel",
+"freetime",
+"absences_MATH",
+"absences_PORTUGESE",
+"finalGrade_MATH",
+"finalGrade_PORTUGESE"
+]
+for each_rel in file_of_rel:
+    print(each_rel, "!")
+    res = file[each_rel]
+    arr = []
+    for each in res:
+        arr.append(str(each))
+    if(arr[0].isdigit()):
+        midi = (int)(arr[0])
+        mediana = []
+        mediana.append(int(midi))
+
+        cnt = 1
+        for i in range(1, len(arr)):
+            midi += (int)(arr[i])
+            mediana.append(int(arr[i]))
+            cnt+=1
+        mediana.sort()
+        #print(*mediana)
+        if(len(mediana)%2 == 1):
+            print("mediana: ", mediana[len(mediana)//2])
+        else:
+            left_med = mediana[len(mediana)//2]
+            rig_med = mediana[len(mediana)//2-1]
+            if(left_med != rig_med):
+                print("right mediana: ",mediana[len(mediana)//2])
+                print("left megiana: ", mediana[len(mediana)//2-1])
+            else:
+                print("mediana: ", mediana[len(mediana) // 2])
+        print(" medium: ", midi/cnt)
+    else:
+        first_val = arr[0]
+        cnt_f = 1
+        cnt_s = 0
+        for i in range(1, len(arr)):
+            if(arr[i] != first_val):
+                sec_val = arr[i]
+                cnt_s+=1
+            else:
+                cnt_f+=1
+
+        if(cnt_f> cnt_s):
+            print(first_val, "val = ", cnt_f, "sec_val",cnt_s)
+        elif(cnt_f < cnt_s):
+            print(sec_val, "val = ", cnt_s, "sec_val", cnt_f)
+        else:
+            print("same", first_val," ", sec_val)
